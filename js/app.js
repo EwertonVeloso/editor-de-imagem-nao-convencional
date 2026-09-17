@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let isToolDrag = false;
   let editingTextIndex = -1;
 
-  // --- Carregamento da Imagem de Demonstração ---
+  // --- Carregamento da Imagem ---
   const imageObj = new Image();
   imageObj.crossOrigin = 'anonymous';
-  let originalImageSrc = 'assets/demo-artwork.svg';
+  let originalImageSrc = null;
   let originalCanvasWidth = 0;
   let originalCanvasHeight = 0;
   let isApplyingCrop = false;
@@ -110,9 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderCanvas();
   };
-
-  // Carrega a imagem vetorial de demonstração criada em assets
-  imageObj.src = originalImageSrc;
 
   // ==========================================================================
   // CANVAS RENDERING PIPELINE COM ZOOM SELETIVO (FOCAL POINT)
