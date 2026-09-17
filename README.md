@@ -17,13 +17,6 @@ Ele deve ser convidado a:
 
 A interface foi projetada para parecer um **laboratório visual / mesa de criação digital**, afastando-se deliberadamente de metáforas tradicionais como as de Photoshop, Canva, Figma ou Photopea.
 
-### Regras de Design Aplicadas
-* ❌ **Sem menus tradicionais** ("Arquivo", "Editar", "Imagem", etc.).
-* ❌ **Sem textos explicativos** ("Brilho", "Contraste", "Girar", "Zoom", "Espelhar", "Resetar").
-* ❌ **Sem ícones universais** (lixeira, engrenagem, lupa, seta de undo, play/pause, mais/menos, pincel, balde).
-* ✅ **Mensagem inicial minimalista**: Apenas uma palavra em tipografia discreta: `"experimente"`.
-* ✅ **Affordances abstratas e feedback imediato**: Cada controle fornece resposta visual instantânea tanto na imagem quanto em seu próprio corpo geométrico.
-
 ---
 
 ## 🚀 Como Executar
@@ -42,6 +35,7 @@ O projeto é **100% autônomo e offline**. Não necessita de servidores, conexã
 * **CSS3**: Variáveis CSS, layout responsivo com Grid e Flexbox, *glassmorphism* (`backdrop-filter: blur`), animações orgânicas de SVG morphing e gradientes dinâmicos.
 * **JavaScript (ES6+)**: Manipulação gráfica com a **HTML5 Canvas 2D API**, escutadores de eventos de ponteiro/arraste em tempo real (`PointerEvents`) e leitor de arquivos locais (`FileReader`).
 * **SVG**: Gráficos vetoriais locais para controles abstratos e imagem de demonstração.
+* **Lucide (CDN opcional)**: Biblioteca de ícones vetoriais usada na lanterna do controle de luminosidade. O sistema permanece funcional mesmo se a biblioteca não carregar.
 
 ---
 
@@ -51,12 +45,12 @@ Os 6 controles estão dispostos de forma simétrica e fluida em dois painéis fl
 
 | Cluster | # | Função Real | Elemento Visual Abstrato | Como Interagir | Comportamento e Feedback Visual |
 |---|---|-------------|--------------------------|----------------|----------------------------------|
-| **Esquerdo** | **1** | **Luminosidade** | **Arco de Luz Incompleto** (anel com esfera reluzente) | Arrastar a esfera ao longo do arco ou usar setas do teclado | Movimentar para um lado clareia a imagem; para o outro, escurece. O próprio arco ilumina-se proporcionalmente. |
-| **Esquerdo** | **2** | **Cor / Saturação** | **Mancha Cromática Fluida Vetorial** (gota/mancha orgânica animada) | Arrastar verticalmente sobre a mancha ou usar setas | Arrastar para cima aumenta a saturação continuamente; para baixo desatura até o preto e branco. O valor permanece fixo ao soltar. |
-| **Esquerdo** | **3** | **Restauração** | **Núcleo Fragmentado** (quatro peças quadradas separadas) | Clicar | Reseta instantaneamente todas as edições (brilho, cor, rotação, zoom, ponto focal e espelhamento) retornando ao estado original. |
-| **Direito** | **4** | **Rotação** | **Peça Geométrica Assimétrica** (anel com peso angular) | Clicar | A cada clique, a imagem gira 90° no sentido horário com animação gráfica de rotação no widget. |
-| **Direito** | **5** | **Aproximação / Zoom Seletivo** | **Anéis Concêntricos Expansivos** (estrutura de radar) | Arrastar/clicar nos anéis OU clicar/arrastar diretamente na tela | Aumenta/diminui a escala. **Permite escolher o local de zoom**: clicar na imagem foca a aproximação exatamente no ponto desejado com anel de mira neon ciano, e arrastar permite explorar a imagem. |
-| **Direito** | **6** | **Espelhamento** | **Metades Simétricas Refletidas** (duas formas prismáticas) | Clicar | Inverte a imagem na horizontal. As duas metades do controle alternam suas cores de destaque. |
+| **Esquerdo** | **1** | **Luminosidade** | **Arco de Luz Incompleto** (anel com esfera reluzente e lanterna central) | Alternar níveis de iluminação com cliques ou teclas **Enter/Espaço** | Cada clique percorre níveis predefinidos de claridade (60%, 100%, 150% e 200%). O arco se acende proporcionalmente ao valor atual. |
+| **Esquerdo** | **2** | **Cor / Saturação** | **Mancha Cromática Fluida Vetorial** (gota/mancha orgânica animada) | Arrastar verticalmente sobre a mancha, clicar para alternar níveis ou usar setas | Arrastar para cima aumenta a saturação continuamente; para baixo desatura até o preto e branco. Um clique alterna entre níveis (100% → 200% → 0%) e o valor permanece fixo ao soltar. |
+| **Esquerdo** | **3** | **Restauração** | **Aviso de Perigo Vermelho** (ícone de restauração) | Clicar | Reseta instantaneamente todas as edições (brilho, cor, rotação, zoom, ponto focal, espelhamento, textos e desenhos) retornando ao estado original. |
+| **Direito** | **4** | **Rotação** | **Ícone de Rotação** (imagem local `rotate-icon.jpg`) | Clicar | A cada clique, a imagem gira 90° no sentido horário com animação de rotação no widget. |
+| **Direito** | **5** | **Aproximação / Zoom Seletivo** | **Ícone de Aproximação** (imagem local `zoom.jpg`) | Arrastar verticalmente, clicar para alternar níveis de zoom OU clicar/arrastar diretamente na tela | Aumenta/diminui a escala. **Permite escolher o local de zoom**: clicar na imagem foca a aproximação exatamente no ponto desejado com anel de mira neon ciano, e arrastar permite explorar a imagem. |
+| **Direito** | **6** | **Espelhamento** | **Ícone de Espelhamento** (imagem local `espelho.jpg`) | Clicar | Inverte a imagem na horizontal. |
 
 ---
 
@@ -67,11 +61,29 @@ Os 6 controles estão dispostos de forma simétrica e fluida em dois painéis fl
 
 ---
 
+## 🧰 Cluster Criativo — Recorte, Texto e Desenho
+
+Na base da tela, um painel horizontal reúne ferramentas complementares que transformam o espaço em uma pequena mesa de criação:
+
+| # | Ferramenta | Elemento Visual | Como Interagir | Comportamento e Feedback Visual |
+|---|---|----------------|----------------|----------------------------------|
+| 1 | **Recorte** | Ícone de espada (`corte.png`) | Clicar para ativar e arrastar sobre a imagem para delimitar a área; **Enter** confirma e **Esc** cancela | A área fora da seleção escurece com máscara semitransparente e o retângulo ganha borda ciano tracejada; o corte é aplicado definitivamente (destrutivo) à imagem. |
+| 2 | **Inserir Texto** | Símbolo Pilcrow (`escrever.png`) | Clicar para ativar e clicar sobre a imagem para criar um texto; **Enter** confirma e **Esc** cancela; clicar num texto já inserido permite editá-lo | Surge um editor de texto inline centralizado com cursor ciano; clicar no botão ativo alterna entre dois tamanhos de fonte (28px e 52px) em vermelho. |
+| 3 | **Desenhar** | Ícone de pena (`desenhar.png`) | Clicar para ativar e arrastar sobre a imagem para traçar linhas; clicar no botão ativo alterna a espessura do traço | Traçados livres com ponta arredondada em vermelho, em duas espessuras (8px e 20px). |
+| 4 | **Exportar (Download)** | Ícone de download (`download.png`) | Clicar | Baixa a imagem editada em **PNG**; o botão permanece oculto até que haja pelo menos uma edição aplicada. |
+
+> **Dica**: ao ativar uma ferramenta, o cursor da moldura muda conforme o modo ativo (cruz para recorte/desenho, texto para inserção). Pressione **Esc** para desligar a ferramenta atual a qualquer momento.
+
+---
+
 ## 🖼️ Carregamento de Imagem Própria
 
 O usuário pode testar com qualquer imagem do seu próprio computador:
 * **Duplo clique** na área da moldura central para abrir o seletor de arquivos local;
-* **Arrastar e soltar** (`Drag and Drop`) uma imagem diretamente sobre a moldura.
+* **Arrastar e soltar** (`Drag and Drop`) uma imagem diretamente sobre a moldura;
+* **Botão no cabeçalho**: um controle com ícone de ponteiro no topo da tela abre o seletor de imagens a qualquer momento.
+
+Ao carregar uma nova imagem, todas as edições anteriores (filtros, rotação, zoom, textos e desenhos) são descartadas e o estado volta ao inicial.
 
 ---
 
@@ -94,7 +106,16 @@ atelie/
 ├── js/
 │   └── app.js          # Lógica do Canvas 2D, controles, zoom seletivo e drag&drop
 ├── assets/
-│   ├── demo-artwork.svg # Ilustração vetorial local de demonstração
-│   └── favicon.svg     # Ícone do navegador
+│   ├── demo-artwork.svg      # Ilustração vetorial local de demonstração
+│   ├── favicon.svg           # Ícone do navegador
+│   ├── pointer-icon.png      # Botão de carregamento no cabeçalho
+│   ├── redo.png              # Controle de restauração (reset)
+│   ├── rotate-icon.jpg       # Controle de rotação
+│   ├── zoom.jpg              # Controle de aproximação
+│   ├── espelho.jpg           # Controle de espelhamento
+│   ├── corte.png             # Ferramenta de recorte
+│   ├── escrever.png          # Ferramenta de inserir texto
+│   ├── desenhar.png          # Ferramenta de desenhar
+│   └── download.png          # Exportação da imagem editada
 └── README.md           # Documentação técnica do projeto
 ```
